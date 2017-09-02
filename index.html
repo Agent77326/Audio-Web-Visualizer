@@ -1,0 +1,147 @@
+<!-- Copyright (c) 2017, Leo Jung -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="copyright" content="Leo Jung, 2017">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, shrink-to-fit=no">
+		<meta name="robots" content="noindex, nofollow">
+		<meta name="author" content="Leo Jung">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Agent77326 | Audio-Player</title>
+		
+		<link href="./css/pace_fixed_top_loading_bar.css" rel="stylesheet">
+		<link href="./css/main.css" rel="stylesheet">
+		<link href="./css/open-iconic.min.css" rel="stylesheet">
+		<link href="./css/control.css" rel="stylesheet">
+		<link href="./css/menu.css" rel="stylesheet">
+		<link href="./css/load_multiple_circle.css" rel="stylesheet">
+		<link href='https://fonts.googleapis.com/css?family=Baumans' rel='stylesheet'>
+		
+		<script src="./js/pace.min.js"></script>
+		<script src="./js/jquery-3.2.1.min.js"></script>
+		<script src="./js/jquerymobile-swipeupdown.js"></script>
+		<script src="./js/particles.min.js"></script>
+		<script src="./js/util.js"></script>
+		<script src="./js/visualize.js"></script>
+		<script src="./js/onload.js"></script>
+	</head>
+	<body>
+		<style class="color-theme"></style>
+		<style class="icons"></style>
+		<div class="menu">
+			<button class="circle-fromMiddle">
+				<span></span>
+			</button>
+			<ul class="settings">
+				<h2>menu</h2><br>
+				<li>
+					<h3>volume</h3>
+					<input type="range" min="1" max="1000" value="30" class="input-range volume-range" oninput="updateVolume()" onchange="updateVolume()">
+					<style class="volume-range-style"></style>
+					<div class="switch-input">
+						<span class="switch-label">keep volume</span>
+						<label class="switch" role="switch" onclick="toggleKeepVolume();">
+							<input type="checkbox" id="switch-keep-volume" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
+				</li>
+				<li>
+					<h3>theme</h3><br><small>color</small><br>
+					<input type="range" min="0" max="360" value="" class="input-range color-range" oninput="updateColor()" onchange="updateColor()">
+					<style class="color-range-style"></style><br>
+					<small>saturation</small><br>
+					<input type="range" min="0" max="100" value="100" class="input-range saturation-range" oninput="updateColor()" onchange="updateColor()">
+					<style class="saturation-range-style"></style><br>
+					<small>lightness</small><br>
+					<input type="range" min="0" max="80" value="30" class="input-range lightness-range" oninput="updateColor()" onchange="updateColor()">
+					<style class="lightness-range-style"></style>
+					<div class="switch-input">
+						<span class="switch-label">keep these color settings</span>
+						<label class="switch" role="switch" onclick="toggleKeepColor();">
+							<input type="checkbox" id="switch-keep-color" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
+				</li>
+				<li>
+					<h3>audio visualizer</h3>
+					<div class="switch-input">
+						<span class="switch-label">show at top</span>
+						<label class="switch" role="switch" onclick="whichVisualizerPosition();">
+							<input type="checkbox" id="switch-top" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
+					<div class="switch-input">
+						<span class="switch-label">show at bottom</span>
+						<label class="switch" role="switch" onclick="whichVisualizerPosition();">
+							<input type="checkbox" id="switch-bottom" class="switch_toggle" checked>
+							<span class="switch_label"></span>
+						</label>
+					</div>
+					<div class="switch-input">
+						<span class="switch-label">show at left</span>
+						<label class="switch" role="switch" onclick="whichVisualizerPosition();">
+							<input type="checkbox" id="switch-left" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
+					<div class="switch-input">
+						<span class="switch-label">show at right</span>
+						<label class="switch" role="switch" onclick="whichVisualizerPosition();">
+							<input type="checkbox" id="switch-right" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
+				</li>
+				<li class="last-li">
+					<h3>info</h3>
+					<p style="text-align: left; margin: auto; width: 400px; margin-bottom: 12px;">
+						press esc/swipe down = open/close this menu<br>
+						press space = <span class="oi" data-glyph="media-pause"></span>/<span class="oi" data-glyph="media-play"></span><br>
+						double click = <span class="oi" data-glyph="media-skip-forward"></span><br>
+						press <span class="oi" data-glyph="arrow-thick-top"></span> =&nbsp; <span class="oi" data-glyph="plus"></span> sound volume<br>
+						press <span class="oi" data-glyph="arrow-thick-bottom"></span> =&nbsp; <span class="oi" data-glyph="minus"></span> sound volume
+					</p>
+				</li>
+			</ul>
+			<script src="./js/menu.js"></script>
+		</div>
+		<div class="holder">
+			<div class="load">
+				<div class="e-loadholder">
+					<div class="partial-border"></div>
+					<div class="m-loader">
+						<div class="partial-border"></div>
+						<div class="e-text">
+							<div class="partial-border1"></div>
+							<div class="partial-border2"></div>
+							<span id="status">Loading</span>
+						</div>
+					</div>
+				</div>
+				<div id="particleCanvas-Blue"></div>
+				<div id="particleCanvas-White"></div>
+				<script src="./js/load_multiple_circle.js"></script>
+			</div>
+			<div>
+				<div class="swipe-down-menu">
+					<span onclick="toggleFullscreen();" class="oi toggle-fullscreen" data-glyph="fullscreen-enter"></span>
+					<div class="swipe-down-menu-blur"></div>
+					<div class="scroll-btn">
+						<i></i><p>scroll down to get help/open menu</p>
+					</div>
+				</div>
+				<canvas class="audio-visualizer" id="audio-visualizer-top" width="0" height="0"></canvas>
+				<canvas class="audio-visualizer" id="audio-visualizer-bottom" width="0" height="0"></canvas>
+				<canvas class="audio-visualizer" id="audio-visualizer-left" width="0" height="0"></canvas>
+				<canvas class="audio-visualizer" id="audio-visualizer-right" width="0" height="0"></canvas>
+				<audio id="audio"></audio>
+			</div>
+			<script src="./js/control.js"></script>
+		</div>
+	</body>
+</html>

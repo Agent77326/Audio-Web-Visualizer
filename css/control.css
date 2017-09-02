@@ -1,0 +1,165 @@
+.holder {
+	-webkit-transition: all 0.8s ease;
+	-moz-transition: all 0.8s ease;
+	-o-transition: all 0.8s ease;
+	transition: all 0.8s ease;
+}
+
+@keyframes scrollDown {
+	from {
+		top: 4px;
+	}
+	to {
+		top: 32px;
+	}
+}
+
+@-webkit-keyframes scrollDown {
+	from {
+		top: 4px;
+	}
+	to {
+		top: 32px;
+	}
+}
+
+@-moz-keyframes scrollDown {
+	from {
+		top: 4px;
+	}
+	to {
+		top: 32px;
+	}
+}
+
+@-ms-keyframes scrollDown {
+	from {
+		top: 4px;
+	}
+	to {
+		top: 32px;
+	}
+}
+
+@-o-keyframes scrollDown {
+	from {
+		top: 4px;
+	}
+	to {
+		top: 32px;
+	}
+}
+
+.scroll-btn {
+	height: 40px;
+	position: absolute;
+	left: 50%;
+	top: 16px;
+	transform: translateX(-50%);
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.scroll-btn i {
+	width: 24px;
+	height: 40px;
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	border-radius: 12px;
+	transition: inherit;
+}
+
+.scroll-btn i:before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	position: absolute;
+	border-radius: 100%;
+	top: 4px;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: inherit;
+}
+
+.scroll-btn p {
+	position: relative;
+	opacity: 1;
+	margin-top: 15px;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+}
+
+.swipe-down-menu:hover>.scroll-btn i:before {
+	animation: scrollDown 1s ease infinite;
+	background-color: #fff;
+}
+
+.swipe-down-menu {
+	outline: none;
+	z-index: 20;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	height: 100px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+.swipe-down-menu.swipe-down-menu-hide {
+	opacity: 0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+.swipe-down-menu-blur{
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	width: 370px;
+	height: 100%;
+	margin: auto;
+	z-index: 10;
+}
+
+.swipe-down-menu:hover>.swipe-down-menu-blur, .swipe-down-menu:active>.swipe-down-menu-blur {
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+.audio-visualizer {
+	position: fixed;
+	z-index: -1;
+}
+
+#audio-visualizer-top {
+	top: 0;
+}
+
+#audio-visualizer-bottom {
+	bottom: 0;
+}
+
+#audio-visualizer-left {
+	left: 0;
+}
+
+#audio-visualizer-right {
+	right: 0;
+}
+
+.oi.toggle-fullscreen {
+	font-size: 20px;
+	z-index: 40;
+	position: absolute;
+	margin: 20px;
+	top: 0px;
+	right: 0px;
+}
