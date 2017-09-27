@@ -3,6 +3,7 @@ var audio, audio_visualizer_top, audio_visualizer_bottom, audio_visualizer_left,
 var context, analyser, fbc_array, bar_x, bar_width, bar_heigth;
 
 var enableTop, enableBottom, enableLeft, enableRight;
+var visualize_factor = 0.1, visualize_pow = 1.9;
 
 var progresSong = setInterval(function () {
 	if(audio && !audio.paused){
@@ -65,11 +66,11 @@ function runAudioVisualizer(){
 				ctx_right.fillRect(parseInt(x), parseInt(y), parseInt(w), parseInt(h));
 			}
 		}
-		
+
 		for(var i = 0; i < fbc_array.length; i++){
 			bar_x = i * 3;
 			bar_width = 1;
-			bar_heigth = parseInt(Math.pow(fbc_array[i] / 10, 1.9));
+			bar_heigth = parseInt(Math.pow(fbc_array[i] * visualize_factor, visualize_pow));
 			if(enableTop){
 				ctx_top.fRect(bar_x, 0, bar_width, bar_heigth);
 			}
@@ -83,7 +84,7 @@ function runAudioVisualizer(){
 				ctx_right.fRect(audio_visualizer_right.width, bar_x, -bar_heigth, bar_width);
 			}
 		}
-		
+
 		if(fbc_array[2] >= 70){
 			var val = fbc_array[2] - 70;
 			var size = 240 + Math.floor(val) * 0.003 * 240;

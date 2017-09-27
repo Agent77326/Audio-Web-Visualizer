@@ -11,6 +11,7 @@ window.onload = function(){
 	src.connect(analyser);
 	analyser.connect(context.destination);
 	updateColor();
+	updateVisualizer();
 	runThemeColorParticle();
 	whichVisualizerPosition();
 	setStatus('<span class="oi" data-glyph="power-standby"></span>');

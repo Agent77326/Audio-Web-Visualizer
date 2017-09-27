@@ -35,14 +35,34 @@ function updateColor() {
 	  	"}");
 	setColor();
 	updateVolume();
+	updateVisualizer();
 	runThemeColorParticle();
+}
+
+function updateVisualizer() {
+	var a = $(".visualize-factor-range").val() / 10;
+	$('.visualize-factor-range-style').html(".visualize-factor-range::-webkit-slider-runnable-track {" +
+			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
+			"}");
+	a = $(".visualize-pow-range").val() / 10;
+	$('.visualize-pow-range-style').html(".visualize-pow-range::-webkit-slider-runnable-track {" +
+			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
+			"}");
+	if(keepVisualizer){
+		localStorage.setItem("visualize-factor", $(".visualize-factor-range").val());
+		localStorage.setItem("visualize-pow", $(".visualize-pow-range").val());
+	}
+	visualize_factor = $(".visualize-factor-range").val() / 1000;
+	console.log("Updated visualize_factor to: " + visualize_factor);
+	visualize_pow = $(".visualize-pow-range").val() / 100;
+	console.log("Updated visualize_pow to: " + visualize_pow);
 }
 
 function notSupported() {
 	alert("Browser/Device not supported!!!\nThere may be a lot of major bugs and misfunctions in other browsers then Google Chrome Desktop.\nTo get the best experience use the newest stable desktop version of Google Chrome.\nYou can get it here: https://www.google.de/chrome/browser/desktop/");
 }
 
-var keepColor = false, keepVolume = true;
+var keepColor = false, keepVolume = true, keepVisualizer = false;
 
 function checkIfKeep() {
 	// test browser usability
@@ -63,6 +83,7 @@ function checkIfKeep() {
 		else{
 			$(".color-range").val(rand(0, 360));
 		}
+
 		if(localStorage.getItem("keepVolume")){
 			$(".volume-range").val(localStorage.getItem("volume"));
 			$("#switch-keep-volume").prop('checked', true);
@@ -76,6 +97,17 @@ function checkIfKeep() {
 		else{
 			keepVolume = false;
 		}
+
+		if(localStorage.getItem("keepVisualizer")) {
+			console.log("Loading visualizer settings");
+			keepVisualizer = true;
+			$("#switch-keep-visualizer").prop("checked", true);
+			$(".visualize-factor-range").val(localStorage.getItem("visualize-factor"));
+			$(".visualize-pow-range").val(localStorage.getItem("visualize-pow"));
+		}
+	}
+	else{
+		notSupported();
 	}
 }
 
@@ -94,7 +126,10 @@ function toggleKeepColor() {
 			else{
 				console.log("Disabled keep-color");
 				keepColor = false;
-				localStorage.setItem("keepColor", false);
+				localStorage.removeItem("keepColor");
+				localStorage.removeItem("color-h");
+				localStorage.removeItem("color-s");
+				localStorage.removeItem("color-l");
 			}
 		}, 200);
 	}
@@ -114,8 +149,32 @@ function toggleKeepVolume() {
 			else{
 				console.log("Disabled keep-volume");
 				keepVolume = false;
-				localStorage.setItem("keepVolume", false);
+				localStorage.removeItem("keepVolume");
 				localStorage.removeItem("volume");
+			}
+		}, 200);
+	}
+}
+
+var notDBClickKeepVisualizer = true;
+function toggleKeepVisualizer() {
+	if(notDBClickKeepVisualizer){
+		notDBClickKeepVisualizer = false;
+		setTimeout(function () {
+			notDBClickKeepVisualizer = true;
+			if($("#switch-keep-visualizer").is(':checked')){
+				console.log("Enabled keep-visualizer");
+				keepVisualizer = true;
+				localStorage.setItem("keepVisualizer", true);
+				localStorage.setItem("visualize-factor", $(".visualize-factor-range").val());
+				localStorage.setItem("visualize-pow", $(".visualize-pow-range").val());
+			}
+			else{
+				console.log("Disabled keep-visualizer");
+				keepVisualizer = false;
+				localStorage.removeItem("keepVisualizer");
+				localStorage.removeItem("visualize-factor");
+				localStorage.removeItem("visualize-pow");
 			}
 		}, 200);
 	}

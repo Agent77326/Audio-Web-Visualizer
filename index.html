@@ -9,23 +9,23 @@
 		<meta name="author" content="Leo Jung">
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Agent77326 | Audio-Player</title>
-		
-		<link href="./css/pace_fixed_top_loading_bar.css" rel="stylesheet">
-		<link href="./css/main.css" rel="stylesheet">
-		<link href="./css/open-iconic.min.css" rel="stylesheet">
-		<link href="./css/control.css" rel="stylesheet">
-		<link href="./css/menu.css" rel="stylesheet">
-		<link href="./css/load_multiple_circle.css" rel="stylesheet">
+		<title>Audio-Player</title>
+
+		<link href="./css/pace_fixed_top_loading_bar.css?v=1.0" rel="stylesheet">
+		<link href="./css/main.css?v=1.0" rel="stylesheet">
+		<link href="./css/open-iconic.min.css?v=1.0" rel="stylesheet">
+		<link href="./css/control.css?v=1.0" rel="stylesheet">
+		<link href="./css/menu.css?v=1.0" rel="stylesheet">
+		<link href="./css/load_multiple_circle.css?v=1.0" rel="stylesheet">
 		<link href='https://fonts.googleapis.com/css?family=Baumans' rel='stylesheet'>
-		
-		<script src="./js/pace.min.js"></script>
-		<script src="./js/jquery-3.2.1.min.js"></script>
-		<script src="./js/jquerymobile-swipeupdown.js"></script>
-		<script src="./js/particles.min.js"></script>
-		<script src="./js/util.js"></script>
-		<script src="./js/visualize.js"></script>
-		<script src="./js/onload.js"></script>
+
+		<script src="./js/pace.min.js?v=1.0"></script>
+		<script src="./js/jquery-3.2.1.min.js?v=1.0"></script>
+		<script src="./js/jquerymobile-swipeupdown.js?v=1.0"></script>
+		<script src="./js/particles.min.js?v=1.0"></script>
+		<script src="./js/util.js?v=1.0"></script>
+		<script src="./js/visualize.js?v=1.0"></script>
+		<script src="./js/onload.js?v=1.0"></script>
 	</head>
 	<body>
 		<style class="color-theme"></style>
@@ -49,7 +49,8 @@
 					</div>
 				</li>
 				<li>
-					<h3>theme</h3><br><small>color</small><br>
+					<h3>theme</h3><br>
+					<small>color</small><br>
 					<input type="range" min="0" max="360" value="" class="input-range color-range" oninput="updateColor()" onchange="updateColor()">
 					<style class="color-range-style"></style><br>
 					<small>saturation</small><br>
@@ -67,7 +68,13 @@
 					</div>
 				</li>
 				<li>
-					<h3>audio visualizer</h3>
+					<h3>audio visualizer</h3><br>
+					<small>visualize-factor</small><br>
+					<input type="range" min="1" max="1000" value="100" class="input-range visualize-factor-range" oninput="updateVisualizer()" onchange="updateVisualizer()">
+					<style class="visualize-factor-range-style"></style><br>
+					<small>visualize-pow</small><br>
+					<input type="range" min="1" max="1000" value="190" class="input-range visualize-pow-range" oninput="updateVisualizer()" onchange="updateVisualizer()">
+					<style class="visualize-pow-range-style"></style>
 					<div class="switch-input">
 						<span class="switch-label">show at top</span>
 						<label class="switch" role="switch" onclick="whichVisualizerPosition();">
@@ -96,6 +103,13 @@
 							<span class="switch_label"></span>
 						</label>
 					</div>
+					<div class="switch-input">
+						<span class="switch-label">keep these settings</span>
+						<label class="switch" role="switch" onclick="toggleKeepVisualizer();">
+							<input type="checkbox" id="switch-keep-visualizer" class="switch_toggle">
+							<span class="switch_label"></span>
+						</label>
+					</div>
 				</li>
 				<li class="last-li">
 					<h3>info</h3>
@@ -108,7 +122,7 @@
 					</p>
 				</li>
 			</ul>
-			<script src="./js/menu.js"></script>
+			<script src="./js/menu.js?v=1.0"></script>
 		</div>
 		<div class="holder">
 			<div class="load">
@@ -125,7 +139,7 @@
 				</div>
 				<div id="particleCanvas-Blue"></div>
 				<div id="particleCanvas-White"></div>
-				<script src="./js/load_multiple_circle.js"></script>
+				<script src="./js/load_multiple_circle.js?v=1.0"></script>
 			</div>
 			<div>
 				<div class="swipe-down-menu">
@@ -141,7 +155,7 @@
 				<canvas class="audio-visualizer" id="audio-visualizer-right" width="0" height="0"></canvas>
 				<audio id="audio"></audio>
 			</div>
-			<script src="./js/control.js"></script>
+			<script src="./js/control.js?v=1.0"></script>
 		</div>
 	</body>
 </html>
