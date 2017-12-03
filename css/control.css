@@ -50,6 +50,21 @@
 	}
 }
 
+.song-title {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	margin: 20px;
+}
+
+.song-progress {
+	position: absolute;
+	margin: 20px;
+	margin-right: 80px;
+	top: 0px;
+	right: 0px;
+}
+
 .scroll-btn {
 	height: 40px;
 	position: absolute;

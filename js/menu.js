@@ -1,12 +1,16 @@
+function inputRangeVisualize(range) {
+	var a = ($(range).val() - $(range).attr('min')) * 100 / ($(range).attr('max') - $(range).attr('min'));
+	$(range + "-style").html(range + "::-webkit-slider-runnable-track {" +
+			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
+			"}");
+}
+
 function updateVolume() {
 	if(keepVolume){
 		localStorage.setItem("volume", $('.volume-range').val());
 	}
-	var a = $('.volume-range').val() / 10;
-	$('.volume-range-style').html(".volume-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-	  	"}");
-	audio.volume = a / 100;
+	inputRangeVisualize('.volume-range');
+	audio.volume = $('.volume-range').val() / 1000;
 	console.log("Updated Audio-volume");
 }
 
@@ -21,18 +25,9 @@ function updateColor() {
 	}
 	col = "hsl(" + curColorTheme[0] + ", " + curColorTheme[1] + "%, " + curColorTheme[2] + "%)";
 	rgbCol = hslToRgb(curColorTheme[0], curColorTheme[1], curColorTheme[2]);
-	var a = ($(".color-range").val() * 100 / 360);
-	$('.color-range-style').html(".color-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-	  	"}");
-	a = $(".saturation-range").val();
-	$('.saturation-range-style').html(".saturation-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-	  	"}");
-	a = ($(".lightness-range").val() * 100 / 80);
-	$('.lightness-range-style').html(".lightness-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-	  	"}");
+	inputRangeVisualize(".color-range");
+	inputRangeVisualize(".saturation-range");
+	inputRangeVisualize(".lightness-range");
 	setColor();
 	updateVolume();
 	updateVisualizer();
@@ -40,38 +35,41 @@ function updateColor() {
 }
 
 function updateVisualizer() {
-	var a = $(".visualize-factor-range").val() / 10;
-	$('.visualize-factor-range-style').html(".visualize-factor-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-			"}");
-	a = $(".visualize-pow-range").val() / 10;
-	$('.visualize-pow-range-style').html(".visualize-pow-range::-webkit-slider-runnable-track {" +
-			"background:linear-gradient(to right, " + col + " 0%, " + col + " " + a + "%, #515151 " + a + "%)" +
-			"}");
+	inputRangeVisualize(".visualize-factor-range")
+	inputRangeVisualize(".visualize-pow-range");
+	inputRangeVisualize(".visualize-hz-per-bar-range");
+	inputRangeVisualize(".visualize-bar-width-range");
+	inputRangeVisualize(".visualize-bar-dist-range");
 	if(keepVisualizer){
 		localStorage.setItem("visualize-factor", $(".visualize-factor-range").val());
 		localStorage.setItem("visualize-pow", $(".visualize-pow-range").val());
+		localStorage.setItem("visualize-hz-per-bar", $(".visualize-hz-per-bar-range").val());
+		localStorage.setItem("visualize-bar-width", $(".visualize-bar-width-range").val());
+		localStorage.setItem("visualize-bar-dist", $(".visualize-bar-dist-range").val());
 	}
 	visualize_factor = $(".visualize-factor-range").val() / 1000;
 	console.log("Updated visualize_factor to: " + visualize_factor);
-	visualize_pow = $(".visualize-pow-range").val() / 100;
+	visualize_pow = $(".visualize-pow-range").val() / 333;
 	console.log("Updated visualize_pow to: " + visualize_pow);
+	hz_per_bar = parseInt($(".visualize-hz-per-bar-range").val());
+	console.log("Updated hz_per_bar to: " + hz_per_bar);
+	bar_width = parseInt($(".visualize-bar-width-range").val());
+	console.log("Updated bar_width to: " + bar_width);
+	bar_dist = parseInt($(".visualize-bar-dist-range").val());
+	console.log("Updated bar_dist to: " + bar_width);
 }
 
-function notSupported() {
-	alert("Browser/Device not supported!!!\nThere may be a lot of major bugs and misfunctions in other browsers then Google Chrome Desktop.\nTo get the best experience use the newest stable desktop version of Google Chrome.\nYou can get it here: https://www.google.de/chrome/browser/desktop/");
+function updatePlaylistList(){
+	var out = "";
+	for (var i = 0, f; f = playlist[i]; i++){
+		out += '<tr><td class="playlist-list-nr">' + (i + 1) + '</td><td class="playlist-list-song">' + f.title + '</td></tr>';
+	}
+	$(".playlist-list-body").html(out);
 }
 
 var keepColor = false, keepVolume = true, keepVisualizer = false;
 
 function checkIfKeep() {
-	// test browser usability
-	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(navigator.userAgent)) {
-		notSupported();
-	}
-	else if (!/Chrome/.test(navigator.userAgent) || !/Google Inc/.test(navigator.vendor)) {
-		notSupported();
-	}
 	if (typeof(Storage) !== "undefined") {
 		if(localStorage.getItem("keepColor")){
 			keepColor = true;

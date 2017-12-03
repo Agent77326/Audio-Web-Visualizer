@@ -15,7 +15,7 @@ function setColor(){
 		"}" +
 		".swipe-down-menu-blur, .circle-fromMiddle, .scroll-btn i, .input-range::-webkit-slider-thumb {" +
 			"border: 2px solid " + col + ";" +
-		"}" + 
+		"}" +
 		".swipe-down-menu-blur {" +
 			"border-top: none;" +
 		"}" +
@@ -39,20 +39,31 @@ function setColor(){
 }
 
 function toggle(){
-	if(init){
-		fetchStream();
-		init = false;
-		setStatus('<span class="oi" data-glyph="media-pause"></span>');
-	}
-	else{
-		if(audio.paused!==true){
-			setStatus('<span class="oi" data-glyph="media-play"></span>');
+	console.log("Toggeling");
+	if(audio.src){
+		console.log("Is paused: " + audio.paused);
+		if(audio.paused != true){
+			setControlIcons('play');
 			audio.pause();
 		}
 		else{
-			setStatus('<span class="oi" data-glyph="media-pause"></span>');
+			setControlIcons('pause');
 			audio.play();
 		}
+	}
+	else{
+		fetchStream();
+	}
+}
+
+function setControlIcons(icon){
+	switch(icon){
+		case "play":
+			setStatus('<span class="oi" data-glyph="media-play"></span>');
+			break;
+		case "pause":
+			setStatus('<span class="oi" data-glyph="media-pause"></span>');
+			break;
 	}
 }
 
@@ -109,19 +120,17 @@ var prevent = false, clickTimer;
 $("#status")
 	.on("click", function() {
 		clickTimer = setTimeout(function() {
-		if (!prevent) {
-			toggle();
-		}
-		prevent = false;
+			if (!prevent) {
+				toggle();
+			}
+			prevent = false;
 		}, 300);
 	})
 	.on("dblclick", function(){
 		clearTimeout(clickTimer);
 		prevent = true;
+		console.log("dbclick on #status");
 		setStatus('<span class="oi" data-glyph="media-skip-forward"></span>');
-		setTimeout(function() {
-			setStatus('<span class="oi" data-glyph="media-pause"></span>');
-		}, 800);
 		fetchStream();
 	});
 
@@ -144,23 +153,23 @@ $(".swipe-down-menu")
 $(".holder")
 	.on("swipedown", toggleMenu)
 	.bind(mousewheelevt, function(e){
-	    var evt = window.event || e; // equalize event object     
-	    evt = evt.originalEvent ? evt.originalEvent : evt; // convert to originalEvent if possible               
+	    var evt = window.event || e; // equalize event object
+	    evt = evt.originalEvent ? evt.originalEvent : evt; // convert to originalEvent if possible
 	    var delta = evt.detail ? evt.detail*(-40) : evt.wheelDelta; // check for detail first, because it is used by Opera and FF
-	    
+
 	    if(delta > 0) {
 	        //scroll up
 	    }
 	    else {
 	    	//scroll down
 	    	toggleMenu();
-	    }   
+	    }
 	});
 
-$(document).on("keyup",function(e) {
+$(document).on("keyup", function(e) {
     if (e.keyCode == 27) {
     	//escape
-		toggleMenu();
+			toggleMenu();
     }
     else if (e.keyCode == 32) {
     	//space

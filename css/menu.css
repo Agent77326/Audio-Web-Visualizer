@@ -83,6 +83,16 @@
 	filter: blur(8px);
 }
 
+.playlist-list {
+	width: 100%;
+	text-transform: none;
+	margin: 17px;
+}
+
+.playlist-list-body>tr>td {
+	border-top: 2px solid;
+	border-top-color: #000;
+}
 
 .circle-fromMiddle {
 	width: 40px;
@@ -98,7 +108,7 @@
 	cursor: pointer;
 	display: inline-block;
 	top: 20px;
-	right: 40px;
+	right: 60px;
 	-moz-transition: ease-in-out 100ms;
 	-ms-transition: ease-in-out 100ms;
 	-o-transition: ease-in-out 100ms;
@@ -131,6 +141,7 @@
 	-moz-transform: rotate(-45deg);
 	-ms-transform: rotate(-45deg);
 	-webkit-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 	/*@include transform-origin(100%,100%);*/
 }
@@ -144,11 +155,11 @@
 }
 
 .circle-fromMiddle:hover {
-	-moz-transform: scale(0.7);
-	-ms-transform: scale(0.7);
-	-o-transform: scale(0.7);
-	-webkit-transform: scale(0.7);
-	transform: scale(0.7);
+	-moz-transform: scale(1.4);
+	-ms-transform: scale(1.4);
+	-o-transform: scale(1.4);
+	-webkit-transform: scale(1.4);
+	transform: scale(1.4);
 }
 
 .circle-fromMiddle span {
@@ -194,9 +205,7 @@
 .settings {
 	text-align: center;
 	text-transform: uppercase;
-	margin: 40px 10%;
 	padding: 0;
-	background-color: rgba(255, 255, 255, 0.15);
 	border-radius: 10px;
 	z-index: 100;
 	padding: 13px 40px;

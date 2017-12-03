@@ -1,6 +1,6 @@
-var init = true, curPlaylist = "";
+var playlist = [], position = 0;
 var audio, audio_visualizer_top, audio_visualizer_bottom, audio_visualizer_left, audio_visualizer_right, ctx_top, ctx_bottom, ctx_left, ctx_right;
-var context, analyser, fbc_array, bar_x, bar_width, bar_heigth;
+var context, analyser, fbc_array, bar_x, bar_width, bar_heigth, hz_per_bar, bar_dist;
 
 var enableTop, enableBottom, enableLeft, enableRight;
 var visualize_factor = 0.1, visualize_pow = 1.9;
@@ -13,24 +13,39 @@ var progresSong = setInterval(function () {
 		if($(".pace-progress").parent().hasClass("pace-inactive")){
 			$(".pace-progress").parent().removeClass("pace-inactive");
 		}
-		var curr = parseInt((audio.currentTime / audio.duration) * 10000) / 100;
+		var curr = 100 * audio.currentTime / audio.duration;
 		$(".pace-progress").attr("data-progress", curr).css("transform", "translate3d(" + curr + "%, 0px, 0px)");
+		$(".song-progress").html(parseInt(audio.currentTime / 60) + ":" + parseInt(audio.currentTime % 60) + " / " + parseInt(audio.duration / 60) + ":" + parseInt(audio.duration % 60));
 	}
-}, 30);
+	else{
+		$(".song-progress").html("");
+	}
+}, 50);
+
+function catchPlayer(){
+	context.createMediaElementSource(audio).connect(analyser);
+	analyser.connect(context.destination);
+}
 
 function fetchStream(){
-	var request = new XMLHttpRequest();
-	var url = "./php/radio.php?playlist=" + curPlaylist;
-	request.open("GET", url, true);
-	request.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			console.log("Stream-URL: " + this.responseText);
-			audio.src = this.responseText;
-			whichVisualizerPosition();
-			audio.play();
-		}
+	console.log("Getting next song. Playlist:");
+	console.log(playlist);
+	console.log("Position: " + position);
+	if(playlist[position]){
+		$(".song-title").html(playlist[position].title);
+		audio.src = playlist[position++].url;
+		whichVisualizerPosition();
+		audio.play();
+		setControlIcons('pause');
 	}
-	request.send();
+	else if (position > 0) {
+		console.log("Reached end of Playlist! looping");
+		position = 0;
+		fetchStream();
+	}
+	else{
+		setStatus('<span class="oi" data-glyph="power-standby"></span>');
+	}
 }
 
 function runAudioVisualizer(){
@@ -67,10 +82,14 @@ function runAudioVisualizer(){
 			}
 		}
 
-		for(var i = 0; i < fbc_array.length; i++){
-			bar_x = i * 3;
-			bar_width = 1;
-			bar_heigth = parseInt(Math.pow(fbc_array[i] * visualize_factor, visualize_pow));
+		for(var i = 0; i < fbc_array.length; i += hz_per_bar){
+			bar_x = i * (bar_width + bar_dist) / hz_per_bar;
+			bar_heigth = 0;
+			for(var n = 0; n < hz_per_bar; n++){
+				bar_heigth += Math.pow(fbc_array[i] * visualize_factor, visualize_pow);
+			}
+			bar_heigth /= hz_per_bar;
+			//console.log(bar_heigth + " = parseInt(Math.pow(" + fbc_array[i] + " * " + visualize_factor + ", " + visualize_pow + "))");
 			if(enableTop){
 				ctx_top.fRect(bar_x, 0, bar_width, bar_heigth);
 			}
@@ -85,8 +104,8 @@ function runAudioVisualizer(){
 			}
 		}
 
-		if(fbc_array[2] >= 70){
-			var val = fbc_array[2] - 70;
+		if(fbc_array[2] >= 80){
+			var val = fbc_array[2] - 80;
 			var size = 240 + Math.floor(val) * 0.003 * 240;
 			document.getElementsByClassName("e-loadholder")[0].setAttribute("style", "width:" + size + "px; height:" + size + "px; border-radius:" + size / 2 + "px");
 			size = 200 + Math.floor(val) * 0.002 * 200;
