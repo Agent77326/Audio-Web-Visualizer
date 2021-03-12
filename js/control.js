@@ -108,7 +108,7 @@ function magicMouse() {
         $(".swipe-down-menu").removeClass("swipe-down-menu-hide");
         isHidden = false;
     }
-};
+}
 document.addEventListener("mousemove", magicMouse);
 $(window).on("mouseout", function () {
     document.querySelector("body").style.cursor = "none";
